@@ -1,8 +1,12 @@
 package com.neosoft.msproj.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class UserDetail {
 	
+	@NotBlank(message = "username required")
 	private String usn;
+	@NotBlank(message = "password required")
 	private String pwd;
 	
 	public UserDetail() {
