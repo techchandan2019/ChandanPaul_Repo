@@ -3,6 +3,8 @@ package com.neosoft.msproj.controlleradvice;
 import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,6 +20,12 @@ public class UserControllerAdvice {
 		ErrorMessage errorMessage=new ErrorMessage(pnfe.getMessage(),LocalDateTime.now(),HttpStatus.NOT_FOUND);
 		
 		return errorMessage;
+		
+	} 
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	public ResponseEntity<Object> handleProductException(MethodArgumentNotValidException ex){
+		
+		return new ResponseEntity<>(ex.getBindingResult().getAllErrors(),HttpStatus.BAD_REQUEST);
 		
 	} 
 	@ExceptionHandler(value = Exception.class)

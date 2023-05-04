@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 
 @Entity
@@ -16,7 +17,9 @@ public class UserInfo {
 	@SequenceGenerator(name="gen1",sequenceName ="SQ2",initialValue = 1,allocationSize = 1)
 	@GeneratedValue(generator = "gen1",strategy = GenerationType.SEQUENCE)
 	private Integer unId;
+	@NotBlank(message = "username required")
 	private String username;
+	@NotBlank(message = "password required")
 	private String password;
 	
 	public UserInfo() {
