@@ -6,6 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 
 
 @Entity
@@ -16,7 +19,9 @@ public class Product {
 	@SequenceGenerator(name="gen1",sequenceName ="SQ1",initialValue = 1,allocationSize = 1)
 	@GeneratedValue(generator = "gen1",strategy = GenerationType.SEQUENCE)
 	private Integer productId;
+	@NotBlank(message = "product name must required")
 	private String productName;
+	@NotNull(message = "product price must required")
 	private Double productPrice;
 	public Product() {
 		// TODO Auto-generated constructor stub

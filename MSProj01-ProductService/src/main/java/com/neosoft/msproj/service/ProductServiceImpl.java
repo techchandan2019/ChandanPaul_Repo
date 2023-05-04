@@ -18,11 +18,13 @@ public class ProductServiceImpl implements IProductService {
 	
 	@Override
 	public String registerProduct(Product prod) {
-		
-		//calling CRUD repository class save method 
+//		if(prod.getProductName()!=null||prod.getProductPrice()!=null) {
 		Product product=prodRepo.save(prod);
-		//returning  result to controller layer
+		
 		return "product is saved with id :"+product.getProductId();
+		/*}else {
+			throw new RuntimeException("Product name and price should not be null");
+		}*/
 	}//close method
 	@Override
 	public List<Product> fetchAllProduct() {
@@ -39,7 +41,7 @@ public class ProductServiceImpl implements IProductService {
 			 throw new ProductNotFoundException("product id not found");
 	}//close 
 	@Override
-	public String updateProductName(Integer pid, String prodName) throws ProductNotFoundException {
+	public String updateProductPrice(Integer pid, Double price) throws ProductNotFoundException {
 		
 		//fetch product by id
 		 Optional<Product> opt=prodRepo.findById(pid);
@@ -47,7 +49,7 @@ public class ProductServiceImpl implements IProductService {
 			 
 			 Product prod=opt.get();
 			 //set the product name to the product Object
-			prod.setProductName(prodName);
+			prod.setProductPrice(price);;
 			//save the product object(partial update) 
 			prodRepo.save(prod);
 			 return opt.get().getProductId()+" is updated successfully";
@@ -55,6 +57,20 @@ public class ProductServiceImpl implements IProductService {
 		 else
 			 throw new ProductNotFoundException("product id not found");
 	}//close method
+	
+	@Override
+	public String updateProduct(Product prod) throws Exception {
+		//fetch product by id
+		 Optional<Product> opt=prodRepo.findById(prod.getProductId());
+		 if(opt.isPresent()) {
+			
+			//update the product object
+			prodRepo.save(prod);
+			 return opt.get().getProductId()+" is updated successfully";
+		 }//if
+		 else
+			 throw new ProductNotFoundException("product id not found");
+	}
 	@Override
 	public String deleteProductById(Integer pid) throws ProductNotFoundException {
 		//fetch product by id
